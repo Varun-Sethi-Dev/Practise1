@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,12 @@ import redo_practise.screens.list.NoteCard
 
 @Composable
 fun EditScreen(noteId: Int?, edSCVm: EditScreenViewModel = hiltViewModel<EditScreenViewModel>()) {
+    LaunchedEffect(noteId) {
+        noteId?.let {
+            edSCVm.getNoteWithId(it)
+        }
+    }
+    val note = edSCVm.note.collectAsState().value
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -24,7 +31,7 @@ fun EditScreen(noteId: Int?, edSCVm: EditScreenViewModel = hiltViewModel<EditScr
     ) {
         if (noteId != null) {
             NoteCard(
-                note = edSCVm.getNoteWithId(noteId).collectAsState().value,
+                note = note,
                 modifier = Modifier.clickable {
                 })
         } else {
@@ -32,3 +39,25 @@ fun EditScreen(noteId: Int?, edSCVm: EditScreenViewModel = hiltViewModel<EditScr
         }
     }
 }
+//@Composable
+//fun EditScreen(noteId: Int?, edSCVm: EditScreenViewModel = hiltViewModel<EditScreenViewModel>()) {
+//    LaunchedEffect(noteId) {
+//        noteId?.let { edSCVm.getNoteWithId(it) }
+//    }
+//
+//    Column(
+//        modifier = Modifier.fillMaxSize(),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Top
+//    ) {
+//        val note = edSCVm.note.collectAsState().value
+//        if (noteId != null && note != null) {
+//            NoteCard(
+//                note = note,
+//                modifier = Modifier.clickable {
+//                })
+//        } else {
+//            Text(text = "Note ID was null")
+//        }
+//    }
+//}

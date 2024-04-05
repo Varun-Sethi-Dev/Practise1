@@ -29,7 +29,7 @@ fun NavigationManager() {
         composable("${Screens.Edit.route}/{noteId}", arguments = listOf(navArgument("noteId") {
             type = NavType.IntType
         })) {
-            val noteID = it.arguments?.getInt("noteId")
+            val noteID: Int = it.arguments?.getInt("noteId") ?: 0
             EditScreen(noteId = noteID)
         }
         composable(Screens.List.route) {
